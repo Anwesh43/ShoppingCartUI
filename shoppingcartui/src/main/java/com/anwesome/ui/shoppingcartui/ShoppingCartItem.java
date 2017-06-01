@@ -73,6 +73,9 @@ public class ShoppingCartItem {
 
     public void updateItemCount(int factor) {
         count += factor;
+        if(count < 0) {
+            count = 0;
+        }
     }
 
     public int hashCode() {
@@ -83,11 +86,11 @@ public class ShoppingCartItem {
     }
     public void draw(Canvas canvas, Paint paint,int w,int h) {
         canvas.drawBitmap(bitmap,w/20,h/20,paint);
-        paint.setTextSize(h/15);
-        paint.setColor(Color.BLACK);
-        canvas.drawText(adjustText(subtitle,7*w/10,paint),w/20,7*h/10,paint);
         paint.setTextSize(h/12);
-        canvas.drawText(adjustText(title,7*w/10,paint),w/20,8*h/10,paint);
+        paint.setColor(Color.BLACK);
+        canvas.drawText(adjustText(title,7*w/10,paint),w/20,7*h/10+h/24,paint);
+        paint.setTextSize(h/15);
+        canvas.drawText(adjustText(subtitle,7*w/10,paint),w/20,8*h/10,paint);
         paint.setTextSize(h/10);
         canvas.drawText(""+count,w/2-paint.measureText(""+count)/2,9*h/10,paint);
     }
