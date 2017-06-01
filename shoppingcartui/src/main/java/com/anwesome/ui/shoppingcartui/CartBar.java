@@ -23,6 +23,7 @@ public class CartBar extends View {
     public CartBar(Context context) {
         super(context);
         bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.white_cart);
+        Constants.viewAnimatore.setCartBar(this);
         Constants.itemContainer.subscribe(this);
     }
     public void onDraw(Canvas canvas) {
@@ -31,8 +32,8 @@ public class CartBar extends View {
             h = canvas.getHeight();
             bitmap = Bitmap.createScaledBitmap(bitmap,h/2,h/2,true);
         }
-        paint.setColor(Color.parseColor("#00BCD4"));
-        canvas.drawBitmap(bitmap,4*w/5-h/2,h/4,paint);
+        canvas.drawColor(Color.parseColor("#00BCD4"));
+        canvas.drawBitmap(bitmap,4*w/5-h/4,h/4,paint);
         canvas.save();
         canvas.translate(4*w/5,h/2);
         canvas.scale(scale,scale);
@@ -40,13 +41,11 @@ public class CartBar extends View {
         canvas.drawCircle(0,0,h/4,paint);
         canvas.restore();
         ConcurrentLinkedQueue<ShoppingCartItem> items = Constants.itemContainer.getSelectedItems();
-        if(items.size() == 0) {
-            paint.setColor(Color.RED);
-            canvas.drawCircle(4 * w / 5 + h / 2, h / 4, h / 8, paint);
-            paint.setTextSize(h/12);
-            paint.setColor(Color.WHITE);
-            canvas.drawText(""+items.size(),4*w/5+h/2,h/4,paint);
-        }
+        paint.setColor(Color.RED);
+        canvas.drawCircle(4 * w / 5 + h/4, h / 4, h / 5, paint);
+        paint.setTextSize(h/5);
+        paint.setColor(Color.WHITE);
+        canvas.drawText(""+items.size(),4*w/5+h/4-paint.measureText(""+items.size())/2,h/5+paint.getTextSize()/2,paint);
         time++;
     }
     public boolean onTouchEvent(MotionEvent event) {

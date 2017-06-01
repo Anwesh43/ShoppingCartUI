@@ -31,6 +31,7 @@ public class ShoppingViewsAnimator extends AnimatorListenerAdapter implements Va
     }
     public void onAnimationEnd(Animator animator) {
         if(isAnimating) {
+            isAnimating = false;
             if(mode == 0) {
                 mode = 1;
                 start();
@@ -42,7 +43,7 @@ public class ShoppingViewsAnimator extends AnimatorListenerAdapter implements Va
             else if(mode == 2) {
                 mode = 3;
             }
-            isAnimating = false;
+
         }
     }
     public void onAnimationUpdate(ValueAnimator valueAnimator) {
