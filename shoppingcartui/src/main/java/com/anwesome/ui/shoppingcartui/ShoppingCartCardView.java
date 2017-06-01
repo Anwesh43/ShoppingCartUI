@@ -16,14 +16,18 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class ShoppingCartCardView extends View{
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private int time = 0,w,h;
-    public ShoppingCartCardView(Context context) {
+    private ShoppingCartItem shoppingCartItem;
+    public ShoppingCartCardView(Context context,ShoppingCartItem shoppingCartItem) {
         super(context);
+        this.shoppingCartItem = shoppingCartItem;
     }
     public void onDraw(Canvas canvas) {
         if(time == 0) {
             w = canvas.getWidth();
             h = canvas.getHeight();
+            shoppingCartItem.initBitmap(w,h);
         }
+        shoppingCartItem.draw(canvas,paint,w,h);
         time++;
     }
     public boolean onTouchEvent(MotionEvent event) {
