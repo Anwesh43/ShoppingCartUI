@@ -29,4 +29,39 @@ public class ShoppingCartCardView extends View{
         }
         return true;
     }
+    private class CardButton {
+        private float x,y,scale = 0,size,dir = 0;
+        public CardButton(float x) {
+            this.x = x;
+            this.y = 4*h/5;
+            size = w/12;
+        }
+        public void draw(Canvas canvas) {
+            canvas.save();
+            canvas.save();
+            canvas.scale(scale,scale);
+            canvas.restore();
+            canvas.restore();
+        }
+        public void update() {
+            scale+=0.2f*dir;
+            if(scale>1) {
+                dir *= -1;
+            }
+            if(scale < 0) {
+                dir = 0;
+                scale = 0;
+            }
+        }
+        public boolean handleTap(float x,float y) {
+            boolean condition = x>=this.x-size && x<=this.x+size && y>=this.y-size && y<=this.y+size && dir == 0;
+            if(condition) {
+                dir = 1;
+            }
+            return condition;
+        }
+        public int hashCode() {
+            return (int)(x+dir);
+        }
+    }
 }
