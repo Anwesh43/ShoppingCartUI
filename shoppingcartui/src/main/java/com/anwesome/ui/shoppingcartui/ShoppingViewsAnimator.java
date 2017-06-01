@@ -13,8 +13,15 @@ public class ShoppingViewsAnimator extends AnimatorListenerAdapter implements Va
     private ValueAnimator startAnim = ValueAnimator.ofFloat(0,1),endAnim = ValueAnimator.ofFloat(1,0);
     private CartBar cartBar;
     private boolean isAnimating = false;
-    public ShoppingViewsAnimator(CartBar cartBar) {
+
+    public static ShoppingViewsAnimator getInstance() {
+        return new ShoppingViewsAnimator();
+    }
+    public void setCartBar(CartBar cartBar) {
         this.cartBar = cartBar;
+    }
+    private ShoppingViewsAnimator() {
+
         startAnim.setDuration(200);
         endAnim.setDuration(200);
         startAnim.addUpdateListener(this);

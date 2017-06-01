@@ -9,6 +9,8 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 /**
  * Created by anweshmishra on 01/06/17.
  */
@@ -21,6 +23,7 @@ public class CartBar extends View {
     public CartBar(Context context) {
         super(context);
         bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.white_cart);
+        Constants.itemContainer.subscribe(this);
     }
     public void onDraw(Canvas canvas) {
         if(time == 0) {
@@ -36,13 +39,19 @@ public class CartBar extends View {
         paint.setColor(Color.argb(150,0,0,0));
         canvas.drawCircle(0,0,h/4,paint);
         canvas.restore();
-        paint.setColor(Color.RED);
-        canvas.drawCircle(4*w/5+h/2,h/4,h/8,paint);
+        ConcurrentLinkedQueue<ShoppingCartItem> items = Constants.itemContainer.getSelectedItems();
+        if(items.size() == 0) {
+            paint.setColor(Color.RED);
+            canvas.drawCircle(4 * w / 5 + h / 2, h / 4, h / 8, paint);
+            paint.setTextSize(h/12);
+            paint.setColor(Color.WHITE);
+            canvas.drawText(""+items.size(),4*w/5+h/2,h/4,paint);
+        }
         time++;
     }
     public boolean onTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_DOWN) {
-
+            Constants.viewAnimatore.start();
         }
         return true;
     }

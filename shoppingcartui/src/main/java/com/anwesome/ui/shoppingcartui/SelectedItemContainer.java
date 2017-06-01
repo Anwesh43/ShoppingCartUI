@@ -19,7 +19,7 @@ public class SelectedItemContainer {
     }
     private ConcurrentLinkedQueue<ShoppingCartItem> selectedItems = new ConcurrentLinkedQueue<>();
     private List<View> subscribers = new ArrayList<>();
-    private ConcurrentLinkedQueue<ShoppingCartItem> getSelectedItems() {
+    public ConcurrentLinkedQueue<ShoppingCartItem> getSelectedItems() {
         return selectedItems;
     }
     public void subscribe(View view) {
