@@ -71,6 +71,10 @@ public class ShoppingCartItem {
         this.price = price;
     }
 
+    public void updateItemCount(int factor) {
+        count += factor;
+    }
+
     public int hashCode() {
         return (int)(price+count)+title.hashCode()+subtitle.hashCode()+bitmap.hashCode();
     }

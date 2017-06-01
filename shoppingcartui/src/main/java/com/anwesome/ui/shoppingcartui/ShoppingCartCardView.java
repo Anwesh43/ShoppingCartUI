@@ -47,7 +47,8 @@ public class ShoppingCartCardView extends View{
         return true;
     }
     private class CardButton {
-        private float x,y,scale = 0,size,dir = 0,changeFactor = 1;
+        private float x,y,scale = 0,size,dir = 0;
+        private int changeFactor = 1;
         private CardButtonType type;
         public CardButton(CardButtonType type) {
             this.type = type;
@@ -69,7 +70,7 @@ public class ShoppingCartCardView extends View{
                     break;
             }
         }
-        public float getChangeFactor() {
+        public int getChangeFactor() {
             return changeFactor;
         }
         public void draw(Canvas canvas) {
@@ -133,11 +134,12 @@ public class ShoppingCartCardView extends View{
                         cardButtons.remove(cardButton);
                         if(cardButtons.size() == 0) {
                             isAnimated = false;
+                            shoppingCartItem.updateItemCount(cardButton.getChangeFactor());
                         }
                     }
                 }
                 try {
-                    Thread.sleep(20);
+                    Thread.sleep(10);
                     invalidate();
                 }
                 catch (Exception ex) {
@@ -159,6 +161,6 @@ public class ShoppingCartCardView extends View{
         }
     }
     private enum CardButtonType {
-        PLUS,MINUS;
+        PLUS,MINUS
     }
 }
