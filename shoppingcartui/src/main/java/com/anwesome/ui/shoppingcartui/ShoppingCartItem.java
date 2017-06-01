@@ -102,6 +102,7 @@ public class ShoppingCartItem {
             }
             else {
                 msg += "..";
+                break;
             }
         }
         return msg;

@@ -2,9 +2,12 @@ package com.anwesome.ui.shoppingcartui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.hardware.display.DisplayManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,14 +33,26 @@ public class ShoppingCardContainer {
     }
     public void show() {
         if(!isShown) {
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             activity.setContentView(scrollView);
+            if(activity instanceof AppCompatActivity) {
+                AppCompatActivity appCompatActivity = (AppCompatActivity)activity;
+                ActionBar actionBar = appCompatActivity.getSupportActionBar();
+                if(actionBar != null) {
+                    actionBar.hide();
+                }
+            }
+            else {
+                android.app.ActionBar actionBar = activity.getActionBar();
+                actionBar.hide();
+            }
             isShown = true;
         }
     }
     private class ListLayout extends ViewGroup{
         private int w,h;
         public void onMeasure(int wspec,int hspec) {
-            int hMax = 0;
+            int hMax = h/30;
             for(int i=0;i<getChildCount();i++) {
                 View child = getChildAt(i);
                 measureChild(child,wspec,hspec);
@@ -45,7 +60,7 @@ public class ShoppingCardContainer {
             }
             setMeasuredDimension(w,hMax);
         }
-        public void onLayout(boolean reloaded,int a,int b,int w,int h) {
+        public void onLayout(boolean reloaded,int a,int b,int wa,int ha) {
             int x = w/20,y = h/20;
             for(int i=0;i<getChildCount();i++) {
                 View child = getChildAt(i);
