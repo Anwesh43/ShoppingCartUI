@@ -81,7 +81,6 @@ public class ShoppingCartCardView extends View{
             paint.setStrokeWidth(size/5);
             paint.setColor(Color.WHITE);
             if(type == CardButtonType.PLUS) {
-
                 for(int i=0;i<2;i++) {
                     canvas.save();
                     canvas.rotate(i * 90);
@@ -135,6 +134,7 @@ public class ShoppingCartCardView extends View{
                         if(cardButtons.size() == 0) {
                             isAnimated = false;
                             shoppingCartItem.updateItemCount(cardButton.getChangeFactor());
+                            Constants.itemContainer.addItem(shoppingCartItem);
                         }
                     }
                 }
