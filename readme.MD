@@ -24,3 +24,5 @@
 #### Demo
 
 <img src="https://github.com/Anwesh43/ShoppingCartUI/blob/master/demo/shoppingcardui.gif" width="300px" height="600px">
+
+<img src="https://github.com/Anwesh43/ShoppingCartUI/blob/master/demo/shoppingcart2.gif" width="300px" height="600px">
