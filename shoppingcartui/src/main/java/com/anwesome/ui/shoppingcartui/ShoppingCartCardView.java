@@ -17,6 +17,8 @@ public class ShoppingCartCardView extends View{
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private int time = 0,w,h;
     private ShoppingCartItem shoppingCartItem;
+    private AnimationHandler animationHandler;
+    private CardButton plusButton,minusButton;
     public ShoppingCartCardView(Context context,ShoppingCartItem shoppingCartItem) {
         super(context);
         this.shoppingCartItem = shoppingCartItem;
@@ -26,13 +28,21 @@ public class ShoppingCartCardView extends View{
             w = canvas.getWidth();
             h = canvas.getHeight();
             shoppingCartItem.initBitmap(w,h);
+            animationHandler = new AnimationHandler();
+            plusButton = new CardButton(CardButtonType.PLUS);
+            minusButton = new CardButton(CardButtonType.MINUS);
         }
+        paint.setColor(Color.BLACK);
+        canvas.drawColor(Color.WHITE);
         shoppingCartItem.draw(canvas,paint,w,h);
+        plusButton.draw(canvas);
+        minusButton.draw(canvas);
         time++;
+        animationHandler.animate();
     }
     public boolean onTouchEvent(MotionEvent event) {
-        if(event.getAction() == MotionEvent.ACTION_DOWN) {
-
+        if(event.getAction() == MotionEvent.ACTION_DOWN && animationHandler != null) {
+            animationHandler.handleTapForButtons(event.getX(),event.getY());
         }
         return true;
     }
@@ -127,7 +137,7 @@ public class ShoppingCartCardView extends View{
                     }
                 }
                 try {
-                    Thread.sleep(50);
+                    Thread.sleep(20);
                     invalidate();
                 }
                 catch (Exception ex) {
@@ -136,14 +146,15 @@ public class ShoppingCartCardView extends View{
             }
         }
         public void handleTapForButtons(float x,float y) {
-            for(CardButton cardButton:cardButtons) {
-                if(cardButton.handleTap(x,y)) {
-                    cardButtons.add(cardButton);
-                    if(cardButtons.size() == 1) {
-                        isAnimated = true;
-                        postInvalidate();
-                    }
-                }
+            if(minusButton!=null && minusButton.handleTap(x,y)) {
+                cardButtons.add(minusButton);
+            }
+            if(plusButton!=null && plusButton.handleTap(x,y)) {
+                cardButtons.add(plusButton);
+            }
+            if(cardButtons.size() == 1) {
+                isAnimated = true;
+                postInvalidate();
             }
         }
     }
