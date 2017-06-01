@@ -37,7 +37,7 @@ public class ShoppingCartCardView extends View{
         private CardButtonType type;
         public CardButton(CardButtonType type) {
             this.type = type;
-            this.y = 4*h/5;
+            this.y = 9*h/10;
             size = w/20;
             decideAccordingToType();
         }
