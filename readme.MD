@@ -20,3 +20,7 @@
 ```
     shoppingCardContainer.show();
 ```
+
+#### Demo
+
+<img src="https://github.com/Anwesh43/ShoppingCartUI/blob/master/demo/shoppingcardui.gif" width="300px" height="600px">
