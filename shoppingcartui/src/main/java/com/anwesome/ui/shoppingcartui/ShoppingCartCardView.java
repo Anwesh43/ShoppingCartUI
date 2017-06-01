@@ -2,6 +2,7 @@ package com.anwesome.ui.shoppingcartui;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,16 +33,54 @@ public class ShoppingCartCardView extends View{
         return true;
     }
     private class CardButton {
-        private float x,y,scale = 0,size,dir = 0;
-        public CardButton(float x) {
-            this.x = x;
+        private float x,y,scale = 0,size,dir = 0,changeFactor = 1;
+        private CardButtonType type;
+        public CardButton(CardButtonType type) {
+            this.type = type;
             this.y = 4*h/5;
-            size = w/12;
+            size = w/20;
+            decideAccordingToType();
+        }
+        private void decideAccordingToType() {
+            switch (type) {
+                case PLUS:
+                    changeFactor = 1;
+                    x = 9*w/10-w/9;
+                    break;
+                case MINUS:
+                    changeFactor = -1;
+                    x = w/9;
+                    break;
+                default:
+                    break;
+            }
+        }
+        public float getChangeFactor() {
+            return changeFactor;
         }
         public void draw(Canvas canvas) {
             canvas.save();
+            canvas.translate(x,y);
+            paint.setColor(Color.parseColor("#BDBDBD"));
+            canvas.drawCircle(0,0,size,paint);
+            paint.setStrokeWidth(size/5);
+            paint.setColor(Color.WHITE);
+            if(type == CardButtonType.PLUS) {
+
+                for(int i=0;i<2;i++) {
+                    canvas.save();
+                    canvas.rotate(i * 90);
+                    canvas.drawLine(0,-size/2,0,size/2,paint);
+                    canvas.restore();
+                }
+            }
+            else {
+                canvas.drawLine(-size/2,0,size/2,0,paint);
+            }
             canvas.save();
             canvas.scale(scale,scale);
+            paint.setColor(Color.argb(150,0,0,0));
+            canvas.drawCircle(0,0,size,paint);
             canvas.restore();
             canvas.restore();
         }
@@ -103,6 +142,8 @@ public class ShoppingCartCardView extends View{
                 }
             }
         }
-
+    }
+    private enum CardButtonType {
+        PLUS,MINUS;
     }
 }
