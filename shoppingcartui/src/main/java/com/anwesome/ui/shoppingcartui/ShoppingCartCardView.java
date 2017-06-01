@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 /**
  * Created by anweshmishra on 01/06/17.
  */
@@ -53,6 +55,9 @@ public class ShoppingCartCardView extends View{
                 scale = 0;
             }
         }
+        public boolean stopped() {
+            return this.dir == 0;
+        }
         public boolean handleTap(float x,float y) {
             boolean condition = x>=this.x-size && x<=this.x+size && y>=this.y-size && y<=this.y+size && dir == 0;
             if(condition) {
@@ -63,5 +68,41 @@ public class ShoppingCartCardView extends View{
         public int hashCode() {
             return (int)(x+dir);
         }
+    }
+    private class AnimationHandler {
+        private ConcurrentLinkedQueue<CardButton> cardButtons = new ConcurrentLinkedQueue<>();
+        private boolean isAnimated = false;
+        public void animate() {
+            if(isAnimated) {
+                for(CardButton cardButton:cardButtons) {
+                    cardButton.update();
+                    if(cardButton.stopped()) {
+                        cardButtons.remove(cardButton);
+                        if(cardButtons.size() == 0) {
+                            isAnimated = false;
+                        }
+                    }
+                }
+                try {
+                    Thread.sleep(50);
+                    invalidate();
+                }
+                catch (Exception ex) {
+
+                }
+            }
+        }
+        public void handleTapForButtons(float x,float y) {
+            for(CardButton cardButton:cardButtons) {
+                if(cardButton.handleTap(x,y)) {
+                    cardButtons.add(cardButton);
+                    if(cardButtons.size() == 1) {
+                        isAnimated = true;
+                        postInvalidate();
+                    }
+                }
+            }
+        }
+
     }
 }
